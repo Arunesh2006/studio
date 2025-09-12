@@ -1,0 +1,12 @@
+body {
+  /* Fallback for browsers that don't support gradients */
+  background-color: #f0f4f8; 
+}
+
+.bg-auth-gradient {
+   background: radial-gradient(circle at top left, #e0f7fa 0%, #f0f4f8 40%, #f8f0f4 100%);
+}
+
+.dark .bg-auth-gradient {
+   background: radial-gradient(circle at top left, #0c344a 0%, #101827 40%, #271018 100%);
+}

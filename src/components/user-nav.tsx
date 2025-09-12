@@ -1,0 +1,88 @@
+
+import Link from "next/link";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { placeholderImages } from "@/lib/placeholder-images.json"
+
+type UserNavProps = {
+  userType?: 'admin' | 'teacher' | 'student';
+}
+
+export function UserNav({ userType = 'admin' }: UserNavProps) {
+  const userAvatar = placeholderImages.find(img => img.id === 'user-avatar');
+
+  const users = {
+    admin: {
+      name: 'Admin',
+      email: 'admin@university.edu',
+      fallback: 'AD',
+    },
+    teacher: {
+      name: 'Dr. Jane Doe',
+      email: 'jane.doe@university.edu',
+      fallback: 'JD',
+    },
+    student: {
+      name: 'Rahul Sharma',
+      email: 'rahul.sharma@university.edu',
+      fallback: 'RS'
+    }
+  }
+
+  const currentUser = users[userType];
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+          <Avatar className="h-9 w-9">
+            {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt="User avatar" data-ai-hint={userAvatar.imageHint} />}
+            <AvatarFallback>{currentUser.fallback}</AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {currentUser.email}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/">
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
